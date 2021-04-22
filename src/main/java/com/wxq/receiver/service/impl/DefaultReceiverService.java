@@ -1,22 +1,23 @@
-package com.wxq.demo.controller;
+package com.wxq.receiver.service.impl;
 
+import com.wxq.receiver.service.ReceiverService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 @Slf4j
-@RestController
-public class Receiver {
+@Service
+public class DefaultReceiverService implements ReceiverService {
 
     @Value("${parentPath}")
     private String parentPath;
 
-    @RequestMapping("/store")
-    public String store(@RequestParam MultipartFile uploadedFile){
-
+    public String store(MultipartFile uploadedFile) {
         // 获取文件名
         String originalFilename = uploadedFile.getOriginalFilename();
         // 如果同一张图片怕覆盖，也可以加个时间戳
@@ -54,6 +55,4 @@ public class Receiver {
         }
         return filepath;
     }
-
 }
-
