@@ -1,20 +1,29 @@
 package com.wxq.receiver.service.impl;
 
+import com.wxq.receiver.repository.ReceiverRepository;
+import com.wxq.receiver.repository.po.Record;
 import com.wxq.receiver.service.ReceiverService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Date;
 
 @Slf4j
 @Service
+@Transactional
 public class DefaultReceiverService implements ReceiverService {
 
     @Value("${parentPath}")
     private String parentPath;
+
+    @Autowired
+    private ReceiverRepository receiverRepository;
 
     public String store(MultipartFile uploadedFile) {
         // 获取文件名
@@ -53,6 +62,11 @@ public class DefaultReceiverService implements ReceiverService {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+        Record record = new Record();
+        record.setFilename(filepath);
+        record.setTime(new Date());
+        record.setId(0L);
+        receiverRepository.save(record);
         return filepath;
     }
 

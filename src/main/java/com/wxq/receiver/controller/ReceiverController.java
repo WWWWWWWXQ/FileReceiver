@@ -22,7 +22,7 @@ public class ReceiverController {
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public String download(HttpServletResponse response,@RequestParam("filename") String filename){
+    public String download(HttpServletResponse response, @RequestParam("filename") String filename){
         return receiverService.download(response, filename);
 //        return "success";
     }
