@@ -91,9 +91,8 @@ public class DefaultReceiverService implements ReceiverService {
 
         //写文件
         byte[] buffer = new byte[1024];
-        OutputStream os = null; //输出流
-        try(BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
-            os = response.getOutputStream();
+        try(BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            OutputStream os = response.getOutputStream()) {
             int i = bis.read(buffer);
             while(i != -1){
                 os.write(buffer);
